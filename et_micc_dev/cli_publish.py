@@ -72,7 +72,7 @@ def execute(cmd, stop_on_error=True, env=None, cwd=None, input=None):
         commanbds succeed.
     """
     click.echo(f"> {' '.join(cmd)}")
-    completed_process = subprocess.run(cmd, capture_output=True, env=env, cwd=cwd, input=input,text=True)
+    completed_process = subprocess.run(cmd, capture_output=True, env=env, cwd=cwd, input=input)
     if completed_process.returncode:
         fg = 'bright_red'
         click.secho(f"  exit code = {completed_process.returncode}"         , fg=fg)
@@ -90,11 +90,7 @@ def execute(cmd, stop_on_error=True, env=None, cwd=None, input=None):
 
 
 @click.command()
-@click.option('-v', '--verbosity', count=True
-             , help="The verbosity of the program."
-             , default=1
-             )
-def main(verbosity):
+def main():
     """CLI to publish et-micc and et-micc-build in an orderly manner."""
     
     if 0==is_repo_clean("../et-micc"):
@@ -116,8 +112,8 @@ def main(verbosity):
         return 1
 
     click.echo("\nPublishing ....")
-    execute(['poetry', 'publish', '--build'], cwd="../et-micc"      , input='y\n')
-    execute(['poetry', 'publish', '--build'], cwd="../et-micc-build", input='y\n')
+    execute(['poetry', 'publish', '--build'], cwd="../et-micc"      , input=b'y\n')
+    execute(['poetry', 'publish', '--build'], cwd="../et-micc-build", input=b'y\n')
         
     click.secho("-*# SUCCESS #*-",fg='green')
     return 0

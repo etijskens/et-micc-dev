@@ -116,8 +116,8 @@ def main(verbosity):
         return 1
 
     click.echo("\nPublishing ....")
-    execute(['poetry', 'publish', '--build'], cwd="../et-micc")
-    execute(['poetry', 'publish', '--build'], cwd="../et-micc-build")
+    execute(['poetry', 'publish', '--build'], cwd="../et-micc"      , input='y')
+    execute(['poetry', 'publish', '--build'], cwd="../et-micc-build", input='y')
         
     click.secho("-*# SUCCESS #*-",fg='green')
     return 0

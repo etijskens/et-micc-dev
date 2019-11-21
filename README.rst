@@ -2,14 +2,12 @@
 et-micc-dev
 ===========
 
+Scripts for maintaining and publishing et-micc and et-micc-build.
 
-
-<Enter a one-sentence description of this project here.>
-
-
-* Free software: MIT license
-* Documentation: https://et-micc-dev.readthedocs.io.
-
+* `PyPI et-micc <https://pypi.org/project/et-micc/>`_ 
+* `PyPI et-micc-build <https://pypi.org/project/et-micc-build/>`_ 
+* `github et-micc <https://github.com/etijskens/et-micc>`_ 
+* `github et-micc-build <https://github.com/etijskens/et-micc-build>`_ 
 
 Features
 --------

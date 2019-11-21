@@ -8,6 +8,7 @@ Welcome to et-micc-dev's documentation!
 
    readme
    installation
+   apps
    api
    authors
    history

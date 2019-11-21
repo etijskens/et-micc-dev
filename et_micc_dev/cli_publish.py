@@ -114,12 +114,12 @@ def main():
 
     click.echo("\nPublishing ....")
     
-    exit_code1 = execute(['poetry', 'publish', '--build'], cwd="../et-micc"      , input=b'y\n')
+    exit_code1 = execute(['poetry', 'publish', '--build'], cwd="../et-micc"      , input_=b'y\n')
     if exit_code1:
         click.secho("Fix the issues and run this command again.",fg='bright_red')
 #         return exit_code
     
-    exit_code2 = execute(['poetry', 'publish', '--build'], cwd="../et-micc-build", input=b'y\n')
+    exit_code2 = execute(['poetry', 'publish', '--build'], cwd="../et-micc-build", input_=b'y\n')
     if exit_code2:
         click.secho("Fix the issues and run this command again.",fg='bright_red')
 #         return exit_code

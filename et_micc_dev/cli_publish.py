@@ -106,7 +106,7 @@ def main(dry_run):
 
     try:
         click.echo("\nVerifying that git repo " + click.style("[et-micc-dev]",fg='cyan') + " is clean ...")
-        cmd = ['--verbose', '--config-file','.bumpversion-et-micc.cfg','patch']\
+        cmd = ['--verbose', '--config-file','.bumpversion-et-micc.cfg','patch']
         if dry_run:
             cmd.append('--dry-run')
         bumpversion(cmd)

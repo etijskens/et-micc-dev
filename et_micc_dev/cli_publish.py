@@ -85,7 +85,7 @@ def execute(cmd, env=None, cwd=None, input_=None):
     ):
         click.secho(' (stderr)\n' + completed_process.stderr.decode('utf-8'), fg=fg)
     if completed_process.returncode:
-        click.secho(f"Exit code = {completed_process.returncode}", fg=fg)
+#         click.secho(f"Exit code = {completed_process.returncode}", fg=fg)
         return completed_process.returncode
     return 0
 

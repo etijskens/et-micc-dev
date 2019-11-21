@@ -28,7 +28,7 @@ def is_repo_clean(repo):
     :param str repo: path to project directory containing .git.
     :returns: True of False
     """
-    click.echo("\nVerifying that git repo " + click.style(f"[{repo}]",fg='green') + " is clean ...")
+    click.echo("\nVerifying that git repo " + click.style(f"[{repo}]",fg='cyan') + " is clean ...")
     repo = pygit2.Repository(repo)
     status = repo.status()
     for filepath, flags in status.items():
@@ -64,15 +64,15 @@ def is_repo_clean(repo):
     return True
     
     
-def execute(cmd, env=None, cwd=None, input=None):
+def execute(cmd, env=None, cwd=None, input_=None):
     """Executes a list of OS commands.
     
     :param list cmds: an OS command (=list of str) 
     :returns int: return code of first failing command, or 0 if all
         commanbds succeed.
     """
-    click.echo(f"\n[{cwd}] > {' '.join(cmd)}")
-    completed_process = subprocess.run(cmd, capture_output=True, env=env, cwd=cwd, input=input)
+    click.echo(click.style(f"\n[{cwd}]", fg='cyan') + f" > {' '.join(cmd)}")
+    completed_process = subprocess.run(cmd, capture_output=True, env=env, cwd=cwd, input=input_)
     if completed_process.returncode:
         fg = 'bright_red'
     else:
@@ -83,7 +83,7 @@ def execute(cmd, env=None, cwd=None, input=None):
 #     if completed_process.stderr:
 #         click.secho(' (stderr)\n' + completed_process.stderr.decode('utf-8'), fg=fg)
     if completed_process.returncode:
-        click.secho(f"  exit code = {completed_process.returncode}", fg=fg)
+        click.secho(f"Exit code = {completed_process.returncode}", fg=fg)
         return completed_process.returncode
     return 0
 

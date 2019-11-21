@@ -6,6 +6,7 @@ import sys
 import click
 import pygit2
 from bumpversion.cli import main as bumpversion
+from bumpversion.exceptions import WorkingDirectoryIsDirtyException
 
 def is_repo_clean(repo):
     """
@@ -40,13 +41,12 @@ def is_repo_clean(repo):
             click.echo(click.style(msg,fg='bright_red') + ' ' + filepath)
             counter += 1
         if counter:
-            click.secho(f"No, there are {counter} issues! Aborting to let you fix them.",fg='bright_red')
+            click.secho(f"There are {counter} issues!"              ,fg='bright_red')
+            click.secho("Fix the issues and run this command again.",fg='bright_red')
             return False
         
-    click.secho("Okay, there are 0 issues. Continuing...",fg='green')
+    click.secho("There are 0 issues.\n",fg='green')
     return True
-    
-    
     
     
 @click.command()
@@ -63,10 +63,21 @@ def main(verbosity):
     if not is_repo_clean("../et-micc-build"):
         return 1
 
-    bumpversion(['--verbose', '--config-file','.bumpversion.cfg','patch','--dry-run'])
-
-    print("-*# success #*-")
+    try:
+        click.echo("\nVerifying that git repo " + click.style("[et-micc-dev]",fg='green') + " is clean ...")
+        bumpversion(['--verbose', '--config-file','.bumpversion.cfg','patch','--dry-run'])
+    except WorkingDirectoryIsDirtyException as e:
+        print(e)
+        click.echo(click.style("Git repo "         ,fg='bright_red') + 
+                   click.style("[et-micc-dev] "    ,fg='green') + 
+                   click.style("must be clean too.",fg='bright_red')
+        )
+        click.secho("Fix the issues and run this command again.",fg='bright_red')
+        return 1
+        
+    click.secho("-*# SUCCESS #*-",fg='green')
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())  # pragma: no cover

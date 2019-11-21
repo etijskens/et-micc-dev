@@ -71,7 +71,7 @@ def execute(cmd, stop_on_error=True, env=None, cwd=None, input=None):
     :returns int: return code of first failing command, or 0 if all
         commanbds succeed.
     """
-    click.echo(f"> {' '.join(cmd)}")
+    click.echo(f"\n> {' '.join(cmd)}")
     completed_process = subprocess.run(cmd, capture_output=True, env=env, cwd=cwd, input=input)
     if completed_process.returncode:
         fg = 'bright_red'
@@ -112,9 +112,17 @@ def main():
         return 1
 
     click.echo("\nPublishing ....")
-    execute(['poetry', 'publish', '--build'], cwd="../et-micc"      , input=b'y\n')
-    execute(['poetry', 'publish', '--build'], cwd="../et-micc-build", input=b'y\n')
-        
+    
+    exit_code = execute(['poetry', 'publish', '--build'], cwd="../et-micc"      , input=b'y\n')
+    if exit_code:
+        click.secho("Fix the issues and run this command again.",fg='bright_red')
+        return exit_code
+    
+    exit_code = execute(['poetry', 'publish', '--build'], cwd="../et-micc-build", input=b'y\n')
+    if exit_code:
+        click.secho("Fix the issues and run this command again.",fg='bright_red')
+        return exit_code
+           
     click.secho("-*# SUCCESS #*-",fg='green')
     return 0
 

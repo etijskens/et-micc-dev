@@ -71,7 +71,7 @@ def execute(cmd, stop_on_error=True, env=None, cwd=None, input=None):
     :returns int: return code of first failing command, or 0 if all
         commanbds succeed.
     """
-    click.echo(f"\n> {' '.join(cmd)}")
+    click.echo(f"\n{cwd} > {' '.join(cmd)}")
     completed_process = subprocess.run(cmd, capture_output=True, env=env, cwd=cwd, input=input)
     if completed_process.returncode:
         fg = 'bright_red'

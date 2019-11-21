@@ -109,6 +109,7 @@ def main(dry_run):
         cmd = ['--verbose', '--config-file','.bumpversion-et-micc.cfg','patch']
         if dry_run:
             cmd.append('--dry-run')
+            click.echo("> bumpversion --dry-run")
         bumpversion(cmd)
     except WorkingDirectoryIsDirtyException as e:
         print(e)

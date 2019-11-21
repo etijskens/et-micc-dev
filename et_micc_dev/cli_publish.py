@@ -103,7 +103,7 @@ def main():
     try:
         click.echo("\nVerifying that git repo " + click.style("[et-micc-dev]",fg='cyan') + " is clean ...")
         cmd = ['--verbose', '--config-file','.bumpversion.cfg','patch']
-#         cmd.append('--dry-run')
+        cmd.append('--dry-run')
         bumpversion(cmd)
     except WorkingDirectoryIsDirtyException as e:
         print(e)

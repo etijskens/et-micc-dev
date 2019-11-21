@@ -72,7 +72,7 @@ def execute(cmd, stop_on_error=True, env=None, cwd=None, input=None):
         commanbds succeed.
     """
     click.echo(f"> {' '.join(cmd)}")
-    completed_process = subprocess.run(cmd, capture_output=True, env=env, cwd=cwd, input=input)
+    completed_process = subprocess.run(cmd, capture_output=True, env=env, cwd=cwd, input=input,text=True)
     if completed_process.returncode:
         fg = 'bright_red'
         click.secho(f"  exit code = {completed_process.returncode}"         , fg=fg)

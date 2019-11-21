@@ -75,15 +75,15 @@ def execute(cmd, env=None, cwd=None, input=None):
     completed_process = subprocess.run(cmd, capture_output=True, env=env, cwd=cwd, input=input)
     if completed_process.returncode:
         fg = 'bright_red'
-        click.secho(f"  exit code = {completed_process.returncode}"         , fg=fg)
     else:
         fg = 'green'
         
     if completed_process.stdout:
-        click.secho(' (stdout)\n' + completed_process.stdout.decode('utf-8'), fg=fg)
+        click.secho('(stdout)\n' + completed_process.stdout.decode('utf-8'), fg=fg)
 #     if completed_process.stderr:
 #         click.secho(' (stderr)\n' + completed_process.stderr.decode('utf-8'), fg=fg)
     if completed_process.returncode:
+        click.secho(f"  exit code = {completed_process.returncode}", fg=fg)
         return completed_process.returncode
     return 0
 

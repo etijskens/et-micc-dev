@@ -80,8 +80,10 @@ def execute(cmd, env=None, cwd=None, input_=None):
         
     if completed_process.stdout:
         click.secho('(stdout)\n' + completed_process.stdout.decode('utf-8'), fg=fg)
-#     if completed_process.stderr:
-#         click.secho(' (stderr)\n' + completed_process.stderr.decode('utf-8'), fg=fg)
+    if (completed_process.returncode==0 and 
+        completed_process.stderr
+    ):
+        click.secho(' (stderr)\n' + completed_process.stderr.decode('utf-8'), fg=fg)
     if completed_process.returncode:
         click.secho(f"Exit code = {completed_process.returncode}", fg=fg)
         return completed_process.returncode

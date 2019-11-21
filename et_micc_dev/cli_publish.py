@@ -115,19 +115,22 @@ def main():
         return 1
 
     click.echo("\nPublishing ....")
-    
+    n_issues = 0
     exit_code1 = execute(['poetry', 'publish', '--build'], cwd="../et-micc"      , input_=b'y\n')
     if exit_code1:
-        click.secho("Fix the issues and run this command again.",fg='bright_red')
+        n_issues += 1
 #         return exit_code
     
     exit_code2 = execute(['poetry', 'publish', '--build'], cwd="../et-micc-build", input_=b'y\n')
     if exit_code2:
+        n_issues += 1
         click.secho("Fix the issues and run this command again.",fg='bright_red')
 #         return exit_code
-    if not exit_code1 and not exit_code2:           
-        click.secho("-*# SUCCESS #*-",fg='green')
-    return 0
+    if n_issues:
+        click.secho(f"Fix {n_issues} issues and run this command again.",fg='bright_red')
+    else:
+        click.secho("\n-*# SUCCESS #*-",fg='green')
+    return n_issues
 
 
 if __name__ == "__main__":

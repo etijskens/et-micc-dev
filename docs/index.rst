@@ -7,7 +7,6 @@ Welcome to et-micc-dev's documentation!
    :caption: Contents:
 
    readme
-   installation
    apps
    api
    authors

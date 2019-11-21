@@ -91,7 +91,11 @@ def execute(cmd, env=None, cwd=None, input_=None):
 
 
 @click.command()
-def main():
+@click.option( '--dry-run'
+             , help="bumpversion --dry-run"
+             , default=False, is_flag=True
+             )
+def main(dry_run):
     """CLI to publish et-micc and et-micc-build in an orderly manner."""
     
     if 0==is_repo_clean("../et-micc"):
@@ -102,8 +106,9 @@ def main():
 
     try:
         click.echo("\nVerifying that git repo " + click.style("[et-micc-dev]",fg='cyan') + " is clean ...")
-        cmd = ['--verbose', '--config-file','.bumpversion-et-micc.cfg','patch']
-#         cmd.append('--dry-run')
+        cmd = ['--verbose', '--config-file','.bumpversion-et-micc.cfg','patch']\
+        if dry_run:
+            cmd.append('--dry-run')
         bumpversion(cmd)
     except WorkingDirectoryIsDirtyException as e:
         print(e)

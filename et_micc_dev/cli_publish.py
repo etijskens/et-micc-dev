@@ -1,12 +1,27 @@
 # -*- coding: utf-8 -*-
 """Command line interface publish (no sub-commands)."""
-
+import os
 import sys
+import subprocess
+from contextlib import contextmanager
+
 
 import click
 import pygit2
 from bumpversion.cli import main as bumpversion
 from bumpversion.exceptions import WorkingDirectoryIsDirtyException
+
+
+@contextmanager
+def in_directory(path):
+    """Context manager for changing the current working directory while the body of the
+    context manager executes.
+    """
+    previous_dir = os.getcwd()
+    os.chdir(str(path)) # the str method takes care of when path is a Path object
+    yield os.getcwd()
+    os.chdir(previous_dir)
+
 
 def is_repo_clean(repo):
     """
@@ -49,6 +64,31 @@ def is_repo_clean(repo):
     return True
     
     
+def execute(cmd, stop_on_error=True, env=None, cwd=None):
+    """Executes a list of OS commands.
+    
+    :param list cmds: an OS command (=list of str) 
+    :returns int: return code of first failing command, or 0 if all
+        commanbds succeed.
+    """
+    click.echo(f"> {' '.join(cmd)}")
+    completed_process = subprocess.run(cmd, capture_output=True, env=env, cwd=cwd)
+    if completed_process.returncode:
+        fg = 'bright_red'
+        click.secho(f"  exit code = {completed_process.returncode}"         , fg=fg)
+    else:
+        fg = 'green'
+        
+    if completed_process.stdout:
+        click.secho(' (stdout)\n' + completed_process.stdout.decode('utf-8'), fg=fg)
+    if completed_process.stderr:
+        click.secho(' (stderr)\n' + completed_process.stderr.decode('utf-8'), fg=fg)
+    if completed_process.returncode:
+        if stop_on_error:
+            return completed_process.returncode
+    return 0
+
+
 @click.command()
 @click.option('-v', '--verbosity', count=True
              , help="The verbosity of the program."
@@ -74,6 +114,10 @@ def main(verbosity):
         )
         click.secho("Fix the issues and run this command again.",fg='bright_red')
         return 1
+
+    click.echo("\nPublishing ....")
+    execute(['poetry', 'publish', '--build'], cwd="../et-micc")
+    execute(['poetry', 'publish', '--build'], cwd="../et-micc-build")
         
     click.secho("-*# SUCCESS #*-",fg='green')
     return 0

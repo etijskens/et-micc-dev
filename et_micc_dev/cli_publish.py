@@ -126,7 +126,7 @@ def main():
         n_issues += 1
 
     if n_issues:
-        click.secho(f"Fix {n_issues} issues and run this command again.",fg='bright_red')
+        click.secho(f"/nFix {n_issues} publishing issues and run this command again.",fg='bright_red')
     else:
         click.secho("\n-*# SUCCESS #*-",fg='green')
     

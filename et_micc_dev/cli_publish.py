@@ -81,8 +81,8 @@ def execute(cmd, env=None, cwd=None, input=None):
         
     if completed_process.stdout:
         click.secho(' (stdout)\n' + completed_process.stdout.decode('utf-8'), fg=fg)
-    if completed_process.stderr:
-        click.secho(' (stderr)\n' + completed_process.stderr.decode('utf-8'), fg=fg)
+#     if completed_process.stderr:
+#         click.secho(' (stderr)\n' + completed_process.stderr.decode('utf-8'), fg=fg)
     if completed_process.returncode:
         return completed_process.returncode
     return 0
@@ -114,17 +114,17 @@ def main():
 
     click.echo("\nPublishing ....")
     
-    exit_code = execute(['poetry', 'publish', '--build'], cwd="../et-micc"      , input=b'y\n')
-    if exit_code:
+    exit_code1 = execute(['poetry', 'publish', '--build'], cwd="../et-micc"      , input=b'y\n')
+    if exit_code1:
         click.secho("Fix the issues and run this command again.",fg='bright_red')
 #         return exit_code
     
-    exit_code = execute(['poetry', 'publish', '--build'], cwd="../et-micc-build", input=b'y\n')
-    if exit_code:
+    exit_code2 = execute(['poetry', 'publish', '--build'], cwd="../et-micc-build", input=b'y\n')
+    if exit_code2:
         click.secho("Fix the issues and run this command again.",fg='bright_red')
 #         return exit_code
-           
-    click.secho("-*# SUCCESS #*-",fg='green')
+    if not exit_code1 and not exit_code2:           
+        click.secho("-*# SUCCESS #*-",fg='green')
     return 0
 
 

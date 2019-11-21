@@ -99,7 +99,7 @@ def main():
         return 1
 
     try:
-        click.echo("\nVerifying that git repo " + click.style("[et-micc-dev]",fg='green') + " is clean ...")
+        click.echo("\nVerifying that git repo " + click.style("[et-micc-dev]",fg='cyan') + " is clean ...")
         cmd = ['--verbose', '--config-file','.bumpversion.cfg','patch']
         cmd.append('--dry-run')
         bumpversion(cmd)

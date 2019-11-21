@@ -64,7 +64,7 @@ def is_repo_clean(repo):
     return True
     
     
-def execute(cmd, stop_on_error=True, env=None, cwd=None):
+def execute(cmd, stop_on_error=True, env=None, cwd=None, input=None):
     """Executes a list of OS commands.
     
     :param list cmds: an OS command (=list of str) 
@@ -72,7 +72,7 @@ def execute(cmd, stop_on_error=True, env=None, cwd=None):
         commanbds succeed.
     """
     click.echo(f"> {' '.join(cmd)}")
-    completed_process = subprocess.run(cmd, capture_output=True, env=env, cwd=cwd)
+    completed_process = subprocess.run(cmd, capture_output=True, env=env, cwd=cwd, input=input)
     if completed_process.returncode:
         fg = 'bright_red'
         click.secho(f"  exit code = {completed_process.returncode}"         , fg=fg)

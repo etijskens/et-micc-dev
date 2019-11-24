@@ -4,12 +4,13 @@ import os
 import sys
 import subprocess
 from contextlib import contextmanager
-
+from types import SimpleNamespace
+from pathlib import Path
 
 import click
 import pygit2
-from bumpversion.cli import main as bumpversion
-from bumpversion.exceptions import WorkingDirectoryIsDirtyException
+
+from et_micc.project import Project
 
 
 @contextmanager
@@ -91,11 +92,15 @@ def execute(cmd, env=None, cwd=None, input_=None):
 
 
 @click.command()
+@click.option( '-r', '--rule'
+             , help="semver rule"
+             , default='patch'
+             )
 @click.option( '--dry-run'
              , help="bumpversion --dry-run"
              , default=False, is_flag=True
              )
-def main(dry_run):
+def main(rule,dry_run):
     """CLI to publish et-micc and et-micc-build in an orderly manner."""
     
     if 0==is_repo_clean("../et-micc"):
@@ -104,21 +109,33 @@ def main(dry_run):
     if not is_repo_clean("../et-micc-build"):
         return 1
 
-    try:
-        click.echo("\nVerifying that git repo " + click.style("[et-micc-dev]",fg='cyan') + " is clean ...")
-        args = ['--verbose', '--config-file','.bumpversion-et-micc.cfg','patch']
-        if dry_run:
-            args.append('--dry-run')
-            click.echo("> bumpversion --dry-run")
-        bumpversion(args)
-    except WorkingDirectoryIsDirtyException as e:
-        print(e)
-        click.echo(click.style("Git repo "         ,fg='bright_red') + 
-                   click.style("[et-micc-dev] "    ,fg='green') + 
-                   click.style("must be clean too.",fg='bright_red')
-        )
-        click.secho("Fix the issues and run this command again.",fg='bright_red')
+    if not rule:
+        click.secho("[Error]\nNo rule specified.",fg='bright_red')
         return 1
+    
+    options_micc = SimpleNamespace(
+        project_path=Path('../et-micc').resolve(),
+        rule = rule,
+        dry_run = dry_run,
+        verbosity = 1,
+        clear_log = False,
+    )
+    options_micc_build = SimpleNamespace(
+        project_path=Path('../et-micc-build').resolve(),
+        rule = rule,
+        dry_run = dry_run,
+        verbosity = 1,
+        clear_log = False,
+    )
+    project_micc       = Project(options_micc)
+    project_micc_build = Project(options_micc_build)
+
+#     d = "--dry-run" if dry_run else "" 
+#     click.echo(f"\nmicc version {d} " + click.style("{rule}",fg='green'))
+    project_micc      .version_cmd()
+    project_micc_build.version_cmd()
+    if dry_run:
+        return 0
 
     click.echo("\nPublishing ....")
     n_issues = 0

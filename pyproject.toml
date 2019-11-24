@@ -18,6 +18,7 @@ bump2version = "^0.5.11"
 cmake = "^3.15.3"
 pygit2 = "^0.28.2"
 click = "^7.0"
+et-micc = "^0.9.18"
 
 [tool.poetry.dev-dependencies]
 pytest = "^4.4.2"

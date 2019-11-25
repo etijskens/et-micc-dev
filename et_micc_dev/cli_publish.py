@@ -129,9 +129,8 @@ def main(rule,dry_run):
     )
     project_micc       = Project(options_micc)
     project_micc_build = Project(options_micc_build)
-
-#     d = "--dry-run" if dry_run else "" 
-#     click.echo(f"\nmicc version {d} " + click.style("{rule}",fg='green'))
+    # update the dependency:
+    project_micc_build.pyproject_toml['tool']['poetry']['dependencies']['et-micc'] = project_micc.version
     project_micc      .version_cmd()
     project_micc_build.version_cmd()
     if dry_run:

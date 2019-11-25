@@ -11,7 +11,7 @@ import click
 import pygit2
 
 from et_micc.project import Project
-
+from et_micc_dev import __version__
 
 @contextmanager
 def in_directory(path):
@@ -100,6 +100,7 @@ def execute(cmd, env=None, cwd=None, input_=None):
              , help="bumpversion --dry-run"
              , default=False, is_flag=True
              )
+@click.version_option(version=__version__)
 def main(rule,dry_run):
     """CLI to publish et-micc and et-micc-build in an orderly manner."""
     
@@ -129,11 +130,14 @@ def main(rule,dry_run):
     )
     project_micc       = Project(options_micc)
     project_micc_build = Project(options_micc_build)
-    # update the dependency:
-    project_micc_build.pyproject_toml['tool']['poetry']['dependencies']['et-micc'] = project_micc.version
     project_micc      .version_cmd()
     project_micc_build.version_cmd()
-    if dry_run:
+    # update the dependency:
+    print(project_micc.version)
+    if not dry_run:
+        project_micc_build.pyproject_toml['tool']['poetry']['dependencies']['et-micc'] = project_micc.version
+        project_micc_build.pyproject_toml.save()
+    else:
         return 0
 
     click.echo("\nPublishing ....")

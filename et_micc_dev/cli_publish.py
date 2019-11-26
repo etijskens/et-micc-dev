@@ -91,6 +91,23 @@ def execute(cmd, env=None, cwd=None, input_=None):
     return 0
 
 
+# def commit_version(repo,new_version):
+#     """
+#     :param str repo: path to project directory containing .git.
+#     :returns: True of False
+#     """
+#     author = pygit2.Signature('Engelbert Tijskens', 'engelbert.tijskens@uantwerpen.be')
+# 
+#     repo = pygit2.Repository(repo)
+#     tree = repo.TreeBuilder().write()
+#     repo.create_commit(
+#         "refs/heads/master", # the name of the reference to update
+#         author, author, f"Publishing v{new_version}.",
+#         tree, # binary string representing the tree object ID
+#         [] # list of binary strings representing parents of the new commit
+#     )
+    
+    
 @click.command()
 @click.option( '-r', '--rule'
              , help="semver rule"
@@ -155,8 +172,12 @@ def main(rule,dry_run):
         click.secho(f"\nFix {n_issues} publishing issues and run this command again.",fg='bright_red')
     else:
         click.secho("\n-*# SUCCESS #*-",fg='green')
-    
+
     return n_issues
+    
+#     commit=True
+#     if commit:
+#         commit_version("../et-micc",project_micc.version)
 
 
 if __name__ == "__main__":

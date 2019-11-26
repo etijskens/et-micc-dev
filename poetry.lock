@@ -153,7 +153,7 @@ description = "A practical Python project skeleton generator."
 name = "et-micc"
 optional = false
 python-versions = ">=3.7,<4.0"
-version = "0.9.18"
+version = "0.9.22"
 
 [package.dependencies]
 click = ">=7.0,<8.0"
@@ -710,8 +710,8 @@ docutils = [
     {file = "docutils-0.15.2.tar.gz", hash = "sha256:a2aeea129088da402665e92e0b25b04b073c04b2dce4ab65caaa38b7ce2e1a99"},
 ]
 et-micc = [
-    {file = "et-micc-0.9.18.tar.gz", hash = "sha256:e33f991cf08eba20385fbe76cc03c50f49f219361de8a854ff70357640a2ac8c"},
-    {file = "et_micc-0.9.18-py3-none-any.whl", hash = "sha256:5086f2cb5e4f463bf84a59af739f4b0fe028b858898cb8bb452702ca842b7d45"},
+    {file = "et-micc-0.9.22.tar.gz", hash = "sha256:8f8d7acac70d39a6a7782528f026c982ecb20ff013418db5e2e9e94d918523c0"},
+    {file = "et_micc-0.9.22-py3-none-any.whl", hash = "sha256:27e9910f97260a728af13954e7440808a5aae7990edd0d3d539d03fbb082e133"},
 ]
 future = [
     {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},

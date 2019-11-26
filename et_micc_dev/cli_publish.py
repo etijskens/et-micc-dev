@@ -11,7 +11,7 @@ import click
 import pygit2
 
 from et_micc.project import Project
-from et_micc_dev import __version__
+from __version__ import __version__ as et_micc_dev_version
 
 @contextmanager
 def in_directory(path):
@@ -100,7 +100,7 @@ def execute(cmd, env=None, cwd=None, input_=None):
              , help="bumpversion --dry-run"
              , default=False, is_flag=True
              )
-@click.version_option(version=__version__)
+@click.version_option(version=et_micc_dev_version)
 def main(rule,dry_run):
     """CLI to publish et-micc and et-micc-build in an orderly manner."""
     

@@ -11,7 +11,10 @@ import click
 import pygit2
 
 from et_micc.project import Project
-from __version__ import __version__ as et_micc_dev_version
+try:
+    from __version__ import __version__ as et_micc_dev_version
+except:
+    et_micc_dev_version = "version unknown"
 
 @contextmanager
 def in_directory(path):

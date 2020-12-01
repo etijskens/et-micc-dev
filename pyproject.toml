@@ -16,7 +16,7 @@ keywords = ['packaging', 'poetry']
 python = "^3.7"
 pygit2 = "^0.28.2"
 click = "^7.0"
-et-micc = "^0.9.30"
+et-micc = "^0.10.5"
 
 [tool.poetry.dev-dependencies]
 pytest = "^4.4.2"
